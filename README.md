@@ -44,9 +44,12 @@ The *mode* setting specifies how to process the image. There are four modes:
 
 **limit**: Only resizes the image if it exceeds the specified width or height. Keeps aspect ratio.
 
-**fit**: Fit image within dimensions but keep aspect ratio. Scales the image up if it's smaller
+**scale**: Fit image within dimensions but keep aspect ratio. Scales the image up if it's smaller
 than the target dimensions. Note that the resulting height or width can be smaller than the
 target dimensions if the aspect ratio of the given image doesn't match the target aspect ratio.
+
+**fit**: Same as scale, except that the difference in height or width between the resized image and the target
+dimensions will be filled with a color that can be specified with an extra `background_color` setting (default white)
 
 **center**: Resize the image so that it's either exactly as wide or exactly as high as the target format and then
 cut off the parts exceeding the dimensions (equally at the top and bottom or left and right).

@@ -75,6 +75,7 @@ function BVWUpload(element, options) {
     });
 
     $('.delete-button', self.$element).click(function(e) {
+      e.preventDefault();
       $('.preview', self.$element).hide();
       $('input[name$="[name]"]', self.$element).val('');
       $('input[name$="[signature]"]', self.$element).val('');

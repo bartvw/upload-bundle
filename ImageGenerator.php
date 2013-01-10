@@ -58,7 +58,7 @@ class ImageGenerator {
           $ratio = min($ratios);
           $scaledSize = $image->getSize()->scale($ratio);
           $img->resize($scaledSize);
-          if ($settings['mode'] == 'scale') {
+          if ($settings['mode'] != 'fit') {
             $thumb = $img;
             break;
           }
