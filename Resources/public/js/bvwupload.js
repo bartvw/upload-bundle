@@ -74,6 +74,13 @@ function BVWUpload(element, options) {
       self.dialog.modal();
     });
 
+    $('.delete-button', self.$element).click(function(e) {
+      $('.preview', self.$element).hide();
+      $('input[name$="[name]"]', self.$element).val('');
+      $('input[name$="[signature]"]', self.$element).val('');
+      $('.delete-button', self.$element).hide();
+    });
+
     self.$element.find('.save-button').click(function(e) {
       e.preventDefault();
       self.save();
@@ -118,9 +125,10 @@ function BVWUpload(element, options) {
         $('.spinner-area', self.$element).hide();
         $('.save-button', self.$element).removeAttr('disabled')
         self.dialog.modal('hide');
-        $('img.preview', self.$element).attr('src', data.thumbnail_url);
+        $('img.preview', self.$element).show().attr('src', data.thumbnail_url);
         $('input[name$="[name]"]', self.$element).val(data.name);
         $('input[name$="[signature]"]', self.$element).val(data.signature);
+        $('.delete-button', self.$element).css('display', 'inline-block');
       },
       "json"
     ).fail(function(data) {

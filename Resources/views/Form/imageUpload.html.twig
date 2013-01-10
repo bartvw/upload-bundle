@@ -17,8 +17,10 @@
 
         <div>
             <a class="btn change-button" href="#" id="{{ id }}_change_button">
-                change image
+                choose image
             </a>
+            <a class="btn delete-button {%  if preview_url is not defined %}hide{%  endif %}" href="#">delete image</a>
+
         </div>
 
 

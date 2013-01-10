@@ -50,14 +50,18 @@ class ImageUploadType extends AbstractType {
     }
 
     $view->vars = array_replace($view->vars, array(
-      'preview_url'   => $this->storage->getPublicUrl($data['name'], $options['preview']),
       'aspect_ratio' => $aspectRatio ?: 'false',
       'thumbnail_preview_subformat' => $options['preview'],
       'target_format' => $options['format'],
       'crop_area_width' => $options['crop_area_width'],
       'crop_area_height' => $options['crop_area_height'],
+      'delete_button' => !$options['required'],
       'unique_id' => uniqid("upload-widget")
     ));
+
+    if (!empty($data['name'])) {
+      $view->vars['preview_url'] = $this->storage->getPublicUrl($data['name'], $options['preview']);
+    }
   }
 
   /**
