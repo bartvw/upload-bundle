@@ -1,0 +1,44 @@
+services:
+    bvw_upload.storage: @bvw_uploadbundle_local_file_storage
+
+    bvw_upload.controller:
+        class: BVW\UploadBundle\Controller\UploadController
+        arguments:
+          imageGenerator:   @bvw_upload_image_generator
+          storage:          @bvw_upload.storage
+          uploadBasePath:   %bvw_upload.upload_base_path%
+          uploadBaseUrl:    %bvw_upload.upload_base_url%
+          formFactory:      @form.factory
+
+
+    bvw_upload_image_generator:
+        class: BVW\UploadBundle\ImageGenerator
+        arguments:
+          imagine: @imagine
+          settings:
+            temp_dir: %bvw_upload.upload_base_path%
+            formats: %bvw_upload.formats%
+
+    bvw_uploadbundle_local_file_storage:
+        class: BVW\UploadBundle\Storage\LocalFilesystemStorage
+        arguments:
+          base_url: %bvw_upload.storage_base_url%
+          base_path: %bvw_upload.storage_base_path%
+          secret: %bvw_upload.secret%
+
+    bvw_uploadbundle_s3_file_storage:
+        class: BVW\UploadBundle\Storage\S3Storage
+        arguments:
+          key:              %bvw_upload.s3.key%
+          secret:           %bvw_upload.s3.secret%
+          region:           %bvw_upload.s3.region%
+          bucket:           %bvw_upload.s3.bucket%
+          thumbnailFormats: %bvw_upload.formats%
+          imageGenerator:   @bvw_upload_image_generator
+
+
+    bvw_uploadbundle_image_upload_type:
+        class: BVW\UploadBundle\Form\Type\ImageUploadType
+        arguments: ["@bvw_upload.storage", "@bvw_upload_image_generator" ]
+        tags:
+            - { name: form.type, alias: image_upload }

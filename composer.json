@@ -1,0 +1,29 @@
+{
+    "name": "bvw/upload-bundle",
+    "type": "symfony-bundle",
+    "description": "Upload-tool for symfony2",
+    "keywords": ["bootstrap", "upload", "thumbnail"],
+    "homepage": "https://bitbucket.org/bartvanwissen/uploadbundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bart van Wissen",
+            "email": "bartvanwissen@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": ">=2.1",
+        "avalanche123/imagine-bundle": ">=v2.1"
+    },
+
+    "autoload": {
+        "psr-0": { "BVW\\UploadBundle": "" }
+    },
+    "target-dir": "BVW/UploadBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "bvw"
+        }
+    }
+}
