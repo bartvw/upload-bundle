@@ -7,3 +7,32 @@
 .image-upload-widget{
     margin-bottom: 10px;
 }
+
+.image-upload-widget .preview_container {
+    position: relative;
+    float: left;
+}
+
+.image-upload-widget .preview_container:hover {
+    cursor: pointer;
+}
+
+.image-upload-widget .preview_container:hover .delete {
+    display: block;
+}
+
+
+.image-upload-widget .preview_container .delete {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: 0;
+    top: 0;
+    display: none;
+    color: red;
+    background-color: white;
+}
+
+.image-upload-widget .preview_container .delete {
+    font-weight: bold;
+}

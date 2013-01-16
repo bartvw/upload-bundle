@@ -7,20 +7,20 @@
         {{ form_widget(form.name) }}
         {{ form_widget(form.signature) }}
 
+        <div class="preview_container choose-image {% if preview_url is not defined %}hide{% endif %}">
+        <div class="delete {%  if preview_url is not defined %}hide{%  endif %}">
+            <i class="icon-remove"></i>
+        </div>
         <img id="{{ id }}_preview" class="preview"
             {% if preview_url is defined %}
-                src="{{ preview_url }}" style="margin-bottom: 5px;"
-            {% else %}
-                style="display: none;"
+                src="{{ preview_url }}"
             {% endif %}
         />
-
+        </div>
         <div>
-            <a class="btn change-button" href="#" id="{{ id }}_change_button">
-                choose image
+            <a class="btn choose-image {% if preview_url is defined %}hide{% endif %}" href="#" id="{{ id }}_change_button">
+                <i class="icon-picture"></i>
             </a>
-            <a class="btn delete-button {%  if preview_url is not defined %}hide{%  endif %}" href="#">delete image</a>
-
         </div>
 
 

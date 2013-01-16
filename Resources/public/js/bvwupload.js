@@ -69,17 +69,19 @@ function BVWUpload(element, options) {
 
     });
 
-    $('.change-button', self.$element).click(function(e) {
+    $('.choose-image', self.$element).click(function(e) {
       e.preventDefault();
       self.dialog.modal();
     });
 
-    $('.delete-button', self.$element).click(function(e) {
+    $('.delete', self.$element).click(function(e) {
       e.preventDefault();
-      $('.preview', self.$element).hide();
+      e.stopPropagation();
+      $('.preview_container', self.$element).hide();
       $('input[name$="[name]"]', self.$element).val('');
       $('input[name$="[signature]"]', self.$element).val('');
       $('.delete-button', self.$element).hide();
+      $('.btn.choose-image', self.$element).show();
     });
 
     self.$element.find('.save-button').click(function(e) {
@@ -126,10 +128,11 @@ function BVWUpload(element, options) {
         $('.spinner-area', self.$element).hide();
         $('.save-button', self.$element).removeAttr('disabled')
         self.dialog.modal('hide');
-        $('img.preview', self.$element).show().attr('src', data.thumbnail_url);
-        $('input[name$="[name]"]', self.$element).val(data.name);
+        $('img.preview', self.$element).attr('src', data.thumbnail_url).closest('.preview_container').show();
         $('input[name$="[signature]"]', self.$element).val(data.signature);
+        $('input[name$="[name]"]', self.$element).val(data.name).change();
         $('.delete-button', self.$element).css('display', 'inline-block');
+        $('.btn.choose-image', self.$element).hide();
       },
       "json"
     ).fail(function(data) {

@@ -38,10 +38,9 @@ class ImageUploadType extends AbstractType {
   public function buildView(FormView $view, FormInterface $form, array $options)
   {
     $data = $form->getViewData();
-
-    if ($options['format'] && $options['use_aspect_ratio'])
+    $format = $this->imageGenerator->getFormat($options['format']);
+    if ($options['use_aspect_ratio'])
     {
-      $format = $this->imageGenerator->getFormat($options['format']);
       $aspectRatio = (double) $format['default']['width'] / $format['default']['height'];
     } elseif ($options['use_aspect_ratio']) {
       throw new InvalidOptionsException('use_aspect_ratio requires target_format to be set');
