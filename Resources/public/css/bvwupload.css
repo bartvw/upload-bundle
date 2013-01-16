@@ -30,9 +30,4 @@
     top: 0;
     display: none;
     color: red;
-    background-color: white;
-}
-
-.image-upload-widget .preview_container .delete {
-    font-weight: bold;
 }
