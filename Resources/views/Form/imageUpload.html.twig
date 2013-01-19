@@ -1,6 +1,12 @@
 {% block image_upload_widget %}
 {% spaceless %}
-    <div class="image-upload-widget" id="{{ unique_id }}">
+    <div class="image-upload-widget" id="{{ unique_id }}"
+         data-store-url="{{ path('bvw_upload_image_store') }}"
+         data-thumbnail-format="{{ thumbnail_preview_subformat }}"
+         data-crop-area-width="{{ crop_area_width }}"
+         data-crop-area-height="{{ crop_area_height }}"
+         data-target-format="{{ target_format }}"
+         data-aspect-ratio="{{ aspect_ratio }}">
 
         {{ form_errors(form.name) }}
         {{ form_errors(form.signature) }}
@@ -56,17 +62,7 @@
         <script>
             console.log(this);
         $(function () {
-            new BVWUpload("#{{ unique_id }}",
-                    {
-                        storeUrl : '{{ path('bvw_upload_image_store') }}',
-                        thumbnailFormat : '{{ thumbnail_preview_subformat }}',
-                        targetFormat: '{{ target_format }}',
-                        cropAreaWidth: '{{ crop_area_width }}',
-                        cropAreaHeight: '{{ crop_area_height }}',
-                        aspectRatio: {{ aspect_ratio }}
-
-
-                    }).init();
+            $('#' +'{{ unique_id }}').bvwupload();
         });
         </script>
 

@@ -98,6 +98,14 @@ function BVWUpload(element, options) {
     });
   };
 
+  this.setData = function(name, signature, src) {
+    $('img.preview', self.$element).attr('src', src).closest('.preview_container').show();
+    $('input[name$="[signature]"]', self.$element).val(signature);
+    $('input[name$="[name]"]', self.$element).val(name).change();
+    $('.delete-button', self.$element).css('display', 'inline-block');
+    $('.btn.choose-image', self.$element).hide();
+  }
+
   this.showProgress = function() {
     $('.bar', self.$element).css(
       'width','0%'
@@ -128,11 +136,7 @@ function BVWUpload(element, options) {
         $('.spinner-area', self.$element).hide();
         $('.save-button', self.$element).removeAttr('disabled')
         self.dialog.modal('hide');
-        $('img.preview', self.$element).attr('src', data.thumbnail_url).closest('.preview_container').show();
-        $('input[name$="[signature]"]', self.$element).val(data.signature);
-        $('input[name$="[name]"]', self.$element).val(data.name).change();
-        $('.delete-button', self.$element).css('display', 'inline-block');
-        $('.btn.choose-image', self.$element).hide();
+        self.setData(data.name, data.signature, data.thumbnail_url);
       },
       "json"
     ).fail(function(data) {
@@ -147,3 +151,46 @@ function BVWUpload(element, options) {
 
 
 
+
+(function($){
+
+    $.fn.extend({
+
+        bvwupload: function(params) {
+
+
+          return this.each(function() {
+
+
+              var bvwUpload = $(this).data('bvwUpload');
+              if (!bvwUpload) {
+
+                var aspectRatio = $(this).attr('data-aspect-ratio') == 'true';
+
+                bvwUpload = new BVWUpload($(this),
+                {
+                    storeUrl : $(this).attr('data-store-url'),
+                    thumbnailFormat : $(this).attr('data-thumbnail-format'),
+                    targetFormat: $(this).attr('data-target-format'),
+                    cropAreaWidth: $(this).attr('data-crop-area-width'),
+                    cropAreaHeight: $(this).attr('data-crop-area-height'),
+                    aspectRatio: aspectRatio
+                });
+
+                $(this).data('bvwUpload', bvwUpload);
+                bvwUpload.init();
+              }
+
+              if (params) {
+                if (params.name && params.signature && params.src) {
+                  bvwUpload.setData(params.name, params.signature, params.src);
+                }
+              }
+
+
+
+          });
+
+        }
+    });
+})(jQuery);
