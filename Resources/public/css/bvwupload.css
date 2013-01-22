@@ -10,7 +10,7 @@
 
 .image-upload-widget .preview_container {
     position: relative;
-    float: left;
+    display: inline-block;
 }
 
 .image-upload-widget .preview_container:hover {
