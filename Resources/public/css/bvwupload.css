@@ -13,6 +13,10 @@
     display: inline-block;
 }
 
+.image-upload-widget .preview_container.hide {
+    display: none;
+}
+
 .image-upload-widget .preview_container:hover {
     cursor: pointer;
 }
