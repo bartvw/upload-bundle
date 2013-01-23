@@ -97,6 +97,9 @@ class ImageGenerator {
 
   public function getFormat($format)
   {
+    if (!array_key_exists($format, $this->formats)) {
+      throw new \InvalidArgumentException("no such format: " . $format);
+    }
     return $this->formats[$format];
   }
 
