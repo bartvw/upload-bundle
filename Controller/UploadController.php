@@ -98,12 +98,15 @@ class UploadController
       throw new Exception('file not in upload base path');
     }
 
+
+
     $renderedImages = $this->imageGenerator->generateFromFile($file, $data['format'],
       array('x' => $data['x'], 'y' => $data['y'], 'w' => $data['w'], 'h' => $data['h']));
     $storageObject = $this->storage->createImageObjectFromArray($renderedImages, $originalName);
+
     return new JsonResponse(array(
-        'thumbnail_url' =>
-        $this->storage->getPublicUrl($storageObject->getName(), $data['return_thumbnail']),
+        'thumbnail_url' => $this->storage->getPublicUrl($storageObject->getName(), $data['return_thumbnail']),
+        'default_url' => $this->storage->getPublicUrl($storageObject->getName()),
         'name' => $storageObject->getName(),
         'signature' => $this->storage->getSignature($storageObject->getName())
       )

@@ -42,3 +42,11 @@ services:
         arguments: ["@bvw_upload.storage", "@bvw_upload_image_generator" ]
         tags:
             - { name: form.type, alias: image_upload }
+
+
+    bvw_uploadbundle.twig_extension:
+        class: BVW\UploadBundle\Twig\BVWUploadTwigExtension
+        arguments:
+          storage: @bvw_upload.storage
+        tags:
+            - { name: twig.extension }

@@ -137,6 +137,7 @@ function BVWUpload(element, options) {
         $('.save-button', self.$element).removeAttr('disabled')
         self.dialog.modal('hide');
         self.setData(data.name, data.signature, data.thumbnail_url);
+        self.$element.trigger('imagechanged',[{ data: data.name, signature: data.signature, url: data.default_url, thumbnail_url: data.thumbnail_url } ]);
       },
       "json"
     ).fail(function(data) {
@@ -167,7 +168,7 @@ function BVWUpload(element, options) {
 
                 var aspectRatio = $(this).attr('data-aspect-ratio') == 'true';
 
-                bvwUpload = new BVWUpload($(this),
+                bvwUpload = new BVWUpload(this,
                 {
                     storeUrl : $(this).attr('data-store-url'),
                     thumbnailFormat : $(this).attr('data-thumbnail-format'),
