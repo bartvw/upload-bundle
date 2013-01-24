@@ -77,11 +77,7 @@ function BVWUpload(element, options) {
     $('.delete', self.$element).click(function(e) {
       e.preventDefault();
       e.stopPropagation();
-      $('.preview_container', self.$element).hide();
-      $('input[name$="[name]"]', self.$element).val('');
-      $('input[name$="[signature]"]', self.$element).val('');
-      $('.delete-button', self.$element).hide();
-      $('.btn.choose-image', self.$element).show();
+      self.setData('', '', '');
     });
 
     self.$element.find('.save-button').click(function(e) {
@@ -99,12 +95,24 @@ function BVWUpload(element, options) {
   };
 
   this.setData = function(name, signature, src) {
-    $('img.preview', self.$element).attr('src', src).closest('.preview_container').show();
+    $('img.preview', self.$element).attr('src', src);
     $('input[name$="[signature]"]', self.$element).val(signature);
     $('input[name$="[name]"]', self.$element).val(name).change();
-    $('.delete-button', self.$element).css('display', 'inline-block');
-    $('.btn.choose-image', self.$element).hide();
+    self.refreshView();
   }
+
+  this.refreshView = function() {
+    if($('input[name$="[name]"]', self.$element).val()) {
+      $('img.preview', self.$element).closest('.preview_container').show();
+      $('.delete-button', self.$element).css('display', 'inline-block');
+      $('.btn.choose-image', self.$element).hide();
+    } else {
+      $('img.preview', self.$element).closest('.preview_container').hide();
+      $('.delete-button', self.$element).hide();
+      $('.btn.choose-image', self.$element).show();
+    }
+  }
+
 
   this.showProgress = function() {
     $('.bar', self.$element).css(
@@ -157,7 +165,7 @@ function BVWUpload(element, options) {
 
     $.fn.extend({
 
-        bvwupload: function(params) {
+        bvwupload: function(action, params) {
 
 
           return this.each(function() {
@@ -183,11 +191,16 @@ function BVWUpload(element, options) {
                 bvwUpload.init();
               }
 
-              if (params) {
+              if (action && action == 'refresh') {
+                bvwUpload.refreshView();
+              }
+              if (typeof action == 'object') {
+                var params = action;
                 if (params.name && params.signature && params.src) {
                   bvwUpload.setData(params.name, params.signature, params.src);
                 }
               }
+
 
 
 
