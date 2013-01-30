@@ -175,7 +175,11 @@ function BVWUpload(element, options) {
               if (!bvwUpload) {
 
                 var aspectRatio = $(this).attr('data-aspect-ratio');
-                if (aspectRatio == 0) { aspectRatio = false };
+                if (aspectRatio == 0 || aspectRatio == 'false') {
+                  aspectRatio = false
+                } else {
+                  aspectRatio = parseFloat(aspectRatio);
+                }
 
                 bvwUpload = new BVWUpload(this,
                 {
