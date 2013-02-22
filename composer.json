@@ -20,10 +20,6 @@
     "autoload": {
         "psr-0": { "BVW\\UploadBundle": "" }
     },
-    "target-dir": "BVW/UploadBundle",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "bvw"
-        }
-    }
+    "target-dir": "BVW/UploadBundle"
+
 }
