@@ -1,6 +1,6 @@
 function BVWUpload(element, options) {
 
-  this.$element = $(element);
+
   this.coordinates = {};
   this.token = '';
   this.filename = '';
@@ -16,13 +16,14 @@ function BVWUpload(element, options) {
     this.aspectRatio = options.aspectRatio;
   }
 
-  this.dialog = this.$element.find('.upload-widget-dialog');
+  var $element = $(element);
+  var $modal = $element.find('.upload-widget-dialog');
 
   var self = this;
 
   this.init = function() {
 
-    $('input[type="file"]', this.dialog).fileupload({
+    $('input[type="file"]', $modal).fileupload({
       dataType: 'json',
       fail: function(e, data) {
         self.hideProgress();
@@ -37,7 +38,7 @@ function BVWUpload(element, options) {
           self.token = file.token;
           self.filename = file.filename;
           var img = $('<img />').attr('src', file.url);
-          self.$element.find('.crop-area').html(img);
+          $modal.find('.crop-area').html(img);
           img.Jcrop({
             onSelect: function(c) {
               self.coordinates = c;
@@ -52,13 +53,13 @@ function BVWUpload(element, options) {
           });
 
 
-          self.$element.find('.save-button').attr('disabled', false);
+          $modal.find('.save-button').attr('disabled', false);
         }
 
       },
       progressall: function (e, data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
-        $('.bar', self.$element).css(
+        $('.bar', $modal).css(
           'width',
           progress + '%'
         );
@@ -69,65 +70,65 @@ function BVWUpload(element, options) {
 
     });
 
-    $('.choose-image', self.$element).click(function(e) {
+    $('.choose-image', $element).click(function(e) {
       e.preventDefault();
-      self.dialog.modal();
+      $modal.modal();
     });
 
-    $('.delete', self.$element).click(function(e) {
+    $('.delete', $element).click(function(e) {
       e.preventDefault();
       e.stopPropagation();
       self.setData('', '', '');
     });
 
-    self.$element.find('.save-button').click(function(e) {
+    $modal.find('.save-button').click(function(e) {
       e.preventDefault();
       self.save();
     })
 
-    self.$element.find('.cancel-button').click(function(e) {
+    $modal.find('.cancel-button').click(function(e) {
       e.preventDefault();
       if (self.savejXHR) {
         self.savejXHR.abort();
       }
-      self.dialog.modal('hide');
+      $modal.modal('hide');
     });
   };
 
   this.setData = function(name, signature, src) {
-    $('img.preview', self.$element).attr('src', src);
-    $('input[name$="[signature]"]', self.$element).val(signature);
-    $('input[name$="[name]"]', self.$element).val(name).change();
+    $('img.preview', $element).attr('src', src);
+    $('input[name$="[signature]"]', $element).val(signature);
+    $('input[name$="[name]"]', $element).val(name).change();
     self.refreshView();
   }
 
   this.refreshView = function() {
-    if($('input[name$="[name]"]', self.$element).val()) {
-      $('img.preview', self.$element).closest('.preview_container').show();
-      $('.delete-button', self.$element).css('display', 'inline-block');
-      $('.btn.choose-image', self.$element).hide();
+    if($('input[name$="[name]"]', $element).val()) {
+      $('img.preview', $element).closest('.preview_container').show();
+      $('.delete-button', $element).css('display', 'inline-block');
+      $('.btn.choose-image', $element).hide();
     } else {
-      $('img.preview', self.$element).closest('.preview_container').hide();
-      $('.delete-button', self.$element).hide();
-      $('.btn.choose-image', self.$element).show();
+      $('img.preview', $element).closest('.preview_container').hide();
+      $('.delete-button', $element).hide();
+      $('.btn.choose-image', $element).show();
     }
   }
 
 
   this.showProgress = function() {
-    $('.bar', self.$element).css(
+    $('.bar', $modal).css(
       'width','0%'
     );
-    $('.progress', self.$element).show();
+    $('.progress', $modal).show();
   }
 
   this.hideProgress = function () {
-    $('.progress', self.$element).hide();
+    $('.progress', $modal).hide();
   }
 
   this.save = function() {
-    $('.spinner-area', self.$element).show();
-    $('.save-button', self.$element).attr('disabled', 'disabled');
+    $('.spinner-area', $modal).show();
+    $('.save-button', $modal).attr('disabled', 'disabled');
     self.savejXHR = $.post(self.storeUrl,
       {
         form :
@@ -141,16 +142,16 @@ function BVWUpload(element, options) {
         }
       },
       function(data) {
-        $('.spinner-area', self.$element).hide();
-        $('.save-button', self.$element).removeAttr('disabled')
-        self.dialog.modal('hide');
+        $('.spinner-area', $modal).hide();
+        $('.save-button', $modal).removeAttr('disabled')
+        $modal.modal('hide');
         self.setData(data.name, data.signature, data.thumbnail_url);
-        self.$element.trigger('imagechanged',[{ data: data.name, signature: data.signature, url: data.default_url, thumbnail_url: data.thumbnail_url } ]);
+        $element.trigger('imagechanged',[{ data: data.name, signature: data.signature, url: data.default_url, thumbnail_url: data.thumbnail_url } ]);
       },
       "json"
     ).fail(function(data) {
-        $('.spinner-area', self.$element).hide();
-        $('.save-button', self.$element).removeAttr('disabled')
+        $('.spinner-area', $modal).hide();
+        $('.save-button', $modal).removeAttr('disabled')
       });
   };
 
